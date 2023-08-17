@@ -5,5 +5,6 @@ import com.example.testapp.view.IMainView
 interface IMainPresenter {
     fun attachView(view: IMainView)
     fun detachView()
-    fun onClick()
+    fun onQueryClick()
+    fun onDeleteClick()
 }
