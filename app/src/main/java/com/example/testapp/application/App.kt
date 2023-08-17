@@ -14,14 +14,15 @@ class App : Application() {
         .create(IDataSource::class.java)
 
     companion object {
-
         private const val APP_URL = "https://geek-jokes.sameerkumar.website/"
 
-        @Volatile
-        private var instance: App? = null
+        @Volatile private var INSTANCE: App? = null
 
-        val INSTANCE = instance ?: synchronized(this) {
-            instance ?: App().also { instance = it }
-        }
+        fun getInstance(): App = INSTANCE ?: synchronized(this) { App().also { INSTANCE = it } }
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        INSTANCE = this
     }
 }
