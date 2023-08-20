@@ -2,14 +2,11 @@ package com.example.testapp.view
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.testapp.R
 import com.example.testapp.application.App
+import com.example.testapp.databinding.ActivityMainBinding
 import com.example.testapp.model.retrofit.RetrofitConnection
 import com.example.testapp.model.room.Cache
 import com.example.testapp.presenter.MainPresenter
@@ -21,16 +18,13 @@ class MainActivity : AppCompatActivity(), IMainView {
         private const val MAIN_TAG = "main_text"
     }
 
+    private lateinit var binding: ActivityMainBinding
     private lateinit var presenter: MainPresenter
-
-    private lateinit var buttonQuery: Button
-    private lateinit var buttonDelete: Button
-    private lateinit var textView: TextView
-    private lateinit var rv: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         init()
     }
 
@@ -38,32 +32,28 @@ class MainActivity : AppCompatActivity(), IMainView {
         presenter = MainPresenter(RetrofitConnection(App.getInstance().dataSource), Cache(App.getInstance().database))
         presenter.attachView(this)
 
-        buttonQuery = findViewById(R.id.button_main)
-        buttonDelete = findViewById(R.id.button_delete_main)
-        textView = findViewById(R.id.text_main)
+        binding.buttonMain.setOnClickListener { presenter.onQueryClick() }
+        binding.buttonDeleteMain.setOnClickListener { presenter.onDeleteClick() }
 
-        buttonQuery.setOnClickListener { presenter.onQueryClick() }
-        buttonDelete.setOnClickListener { presenter.onDeleteClick() }
-
-        rv = findViewById(R.id.rv_main)
-        rv.layoutManager = LinearLayoutManager(baseContext)
-        rv.adapter = RvAdapter(presenter.rvPresenter)
+        binding.rvMain.layoutManager = LinearLayoutManager(baseContext)
+        binding.rvMain.adapter = RvAdapter(presenter.rvPresenter)
 
         presenter.initRvData()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putString(MAIN_TAG, textView.text.toString())
+        val text = binding.textMain.text.toString()
+        outState.putString(MAIN_TAG, text)
         super.onSaveInstanceState(outState)
     }
 
     override fun setText(text: String) {
-        textView.text = text
+        binding.textMain.text = text
     }
 
     @SuppressLint("NotifyDataSetChanged")
     override fun updateRv() {
-        rv.adapter?.notifyDataSetChanged()
+        binding.rvMain.adapter?.notifyDataSetChanged()
     }
 
     override fun showToast(text: String) {

@@ -1,17 +1,15 @@
 package com.example.testapp.view.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.testapp.R
+import com.example.testapp.databinding.ItemRvBinding
 import com.example.testapp.presenter.rv.IRvPresenter
 
 class RvAdapter(private val presenter: IRvPresenter): RecyclerView.Adapter<RvAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
-        ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_rv, parent, false))
+        ViewHolder(ItemRvBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 
     override fun getItemCount(): Int = presenter.getCount()
 
@@ -20,12 +18,10 @@ class RvAdapter(private val presenter: IRvPresenter): RecyclerView.Adapter<RvAda
         presenter.bindView(holder)
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), IRvItemView {
-
-        private val tvRv: TextView = itemView.findViewById(R.id.text_rv)
+    class ViewHolder(private val binding: ItemRvBinding) : RecyclerView.ViewHolder(binding.root), IRvItemView {
 
         override fun setText(text: String) {
-            tvRv.text = text
+            binding.textRv.text = text
         }
 
         override fun getPos(): Int = adapterPosition
