@@ -15,7 +15,7 @@ import retrofit2.Response
 class MainPresenter(private var retrofit: IRetrofit, private val cache: ICache) : IMainPresenter {
 
     private var view: IMainView? = null
-    val rvPresenter = RvPresenter()
+    override val rvPresenter = RvPresenter()
 
     override fun attachView(view: IMainView) {
         this.view = view
@@ -25,11 +25,15 @@ class MainPresenter(private var retrofit: IRetrofit, private val cache: ICache) 
         view = null
     }
 
-    fun initRvData() = setRvData(getAllCache())
+    override fun initRvData() = setRvData(getAllCache())
 
-    override fun onQueryClick() = getText()
+    override fun onQueryClick() {
+        getText()
+    }
 
-    override fun onDeleteClick() = clearCache()
+    override fun onDeleteClick() {
+        clearCache()
+    }
 
     private fun getText() = retrofit.getText().enqueue(object : Callback<Message> {
         override fun onResponse(call: Call<Message>, response: Response<Message>) {

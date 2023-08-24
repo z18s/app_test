@@ -9,6 +9,7 @@ import com.example.testapp.application.App
 import com.example.testapp.databinding.ActivityMainBinding
 import com.example.testapp.model.retrofit.RetrofitConnection
 import com.example.testapp.model.room.Cache
+import com.example.testapp.presenter.IMainPresenter
 import com.example.testapp.presenter.MainPresenter
 import com.example.testapp.view.adapter.RvAdapter
 
@@ -19,7 +20,7 @@ class MainActivity : AppCompatActivity(), IMainView {
     }
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var presenter: MainPresenter
+    private lateinit var presenter: IMainPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
