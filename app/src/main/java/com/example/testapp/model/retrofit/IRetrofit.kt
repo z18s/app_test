@@ -1,8 +1,8 @@
 package com.example.testapp.model.retrofit
 
 import com.example.testapp.model.entity.Message
-import retrofit2.Call
+import io.reactivex.rxjava3.core.Single
 
 interface IRetrofit {
-    fun getText(): Call<Message>
+    fun getText(): Single<Message>
 }

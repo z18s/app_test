@@ -4,6 +4,7 @@ import android.app.Application
 import com.example.testapp.model.retrofit.IDataSource
 import com.example.testapp.model.room.AppDatabase
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 class App : Application() {
@@ -12,6 +13,7 @@ class App : Application() {
         Retrofit.Builder()
             .baseUrl(APP_URL)
             .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .build()
             .create(IDataSource::class.java)
     }
